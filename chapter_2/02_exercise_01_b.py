@@ -71,6 +71,6 @@ print(final_rmse)
 
 confidence = 0.95
 squared_errors = (final_predictions - y_test) ** 2
-np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
+print(np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
                         loc=squared_errors.mean(),
-                        scale=stats.sem(squared_errors)))
+                        scale=stats.sem(squared_errors))))

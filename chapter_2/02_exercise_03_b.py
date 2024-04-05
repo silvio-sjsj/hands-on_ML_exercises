@@ -70,6 +70,11 @@ best_svr_C = rnd_search.best_params_['svr__C']
 best_svr_gamma = rnd_search.best_params_['svr__gamma']
 best_svr_kernel = rnd_search.best_params_['svr__kernel']
 
+print(best_threshold)
+print(best_svr_C)
+print(best_svr_gamma)
+print(best_svr_kernel)
+
 # Update the pipeline with the best parameters
 selector_pipeline.set_params(
     selector__threshold=best_threshold,
@@ -78,17 +83,12 @@ selector_pipeline.set_params(
     svr__kernel=best_svr_kernel
 )
 
-print(best_threshold)
-print(best_svr_C)
-print(best_svr_gamma)
-print(best_svr_kernel)
-
 selector_rmses = -cross_val_score(selector_pipeline,
                                   housing.iloc[:5000],
                                   housing_labels.iloc[:5000],
                                   scoring="neg_root_mean_squared_error",
                                   cv=3)
-pd.Series(selector_rmses).describe()
+print(pd.Series(selector_rmses).describe())
 
 final_model = rnd_search.best_estimator_
 
@@ -107,6 +107,6 @@ print(final_rmse)
 
 confidence = 0.95
 squared_errors = (final_predictions - y_test) ** 2
-np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
+print(np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
                         loc=squared_errors.mean(),
-                        scale=stats.sem(squared_errors)))
+                        scale=stats.sem(squared_errors))))
